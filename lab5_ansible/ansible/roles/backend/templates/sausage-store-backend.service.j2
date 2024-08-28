@@ -1,0 +1,17 @@
+[Unit]
+Description=Sausage-store
+
+[Service]
+User={{ backend_service_user }}
+Environment=REPORT_PATH={{backend_report_directory}}
+Environment=LOG_PATH={{backend_log_directory}}
+Restart=always
+RestartSec=1
+ExecStart=/usr/bin/java \
+-Dmyserver.bindAddr='127.0.0.1' \
+-Dmyserver.bindPort='8080' \
+-jar '{{backend_directory}}/sausage-store.jar'
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

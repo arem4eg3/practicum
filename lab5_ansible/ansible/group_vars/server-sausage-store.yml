@@ -1,0 +1,9 @@
+backend_service_user: backend
+backend_report_directory: /var/sausage-store/reports
+backend_log_directory: /var/sausage-store/logs
+backend_directory: /opt/sausage-store/static/bin
+backend_maven_version: "1.0.1201451"
+
+frontend_service_user: www-data
+frontend_directory: /var/www-data/frontend/
+frontend_version: "1.0.1201450"

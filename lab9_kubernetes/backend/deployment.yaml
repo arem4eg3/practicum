@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: backend
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: backend
+    spec:
+      restartPolicy: Always
+      imagePullSecrets:
+      - name: myregistrykey
+      containers:
+      - image: gitlab.praktikum-services.ru:5050/std-028-38/sausage-store/sausage-backend:latest
+        name: backend
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: SPRING_DATA_MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-uri-secret
+              key: SPRING_DATA_MONGODB_URI
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: datasource-secrets
+              key: SPRING_DATASOURCE_PASSWORD
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: datasource-secrets
+              key: SPRING_DATASOURCE_USERNAME
+        - name: SPRING_DATASOURCE_URL
+          valueFrom:
+            secretKeyRef:
+              name: datasource-secrets
+              key: SPRING_DATASOURCE_URL

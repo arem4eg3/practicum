@@ -1,0 +1,5 @@
+all: 
+  children: 
+    server-sausage-store: # groups
+      hosts:
+        158.160.150.71:

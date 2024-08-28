@@ -1,0 +1,14 @@
+---
+- name: backend 
+  hosts: all
+  gather_facts: no
+  vars_files: nexus_credentials.yml
+  roles:
+    - backend
+
+- name: frontend
+  hosts: all
+  gather_facts: no
+  vars_files: nexus_credentials.yml
+  roles:
+    - frontend

@@ -1,0 +1,21 @@
+---
+global:
+  resolve_timeout: 1m
+route:
+  group_wait: 10s
+  group_interval: 30s
+  repeat_interval: 30m
+  receiver: "telegram"
+  routes:
+    - receiver: "telegram"
+      group_wait: 10s
+      match_re:
+        severity: critical
+      continue: true
+receivers:
+  - name: "telegram"
+    telegram_configs:
+    - send_resolved: true
+      bot_token: '6572689962:AAFxKAA6BoRG47ErSNDDINgUl_8Wo7hz28c'
+      chat_id: 5662291460          
+      message: "🚨 Alertmanager 🚨\n Severity: critical \n{{ range .Alerts }}{{ .Annotations.description }}\n{{ end }}"

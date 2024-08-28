@@ -1,0 +1,55 @@
+version: "3.3"
+
+services:
+  backend-blue:
+    image: ${CI_REGISTRY_IMAGE}/sausage-backend:${VERSION}    
+    container_name: sausage-store-backend-blue
+    environment:
+      VIRTUAL_HOST: "backend"
+      VIRTUAL_PORT: "8080"
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATA_MONGODB_URI: ${SPRING_DATA_MONGODB_URI}      
+    restart: always
+    healthcheck:
+      test: curl --fail -s http://localhost:8080/actuator/health
+      interval: 10s
+      timeout: 10s
+      start_period: 10s
+      retries: 6 
+    networks:
+      - sausage-store
+
+  backend-green:
+    image: ${CI_REGISTRY_IMAGE}/sausage-backend:${VERSION}    
+    container_name: sausage-store-backend-green
+    environment:
+      VIRTUAL_HOST: "backend"
+      VIRTUAL_PORT: "8080"
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATA_MONGODB_URI: ${SPRING_DATA_MONGODB_URI}      
+    restart: always
+    healthcheck:
+      test: curl --fail -s http://localhost:8080/actuator/health
+      interval: 10s
+      timeout: 10s
+      start_period: 10s
+      retries: 6 
+    networks:
+      - sausage-store
+
+  frontend:
+    image: ${CI_REGISTRY_IMAGE}/sausage-frontend:${VERSION}
+    container_name: sausage-store-frontend
+    restart: always
+    ports:
+      - "80:80"
+    networks:
+      - sausage-store
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+networks:
+  sausage-store:

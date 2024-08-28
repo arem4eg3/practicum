@@ -1,0 +1,51 @@
+---
+# tasks file for roles/backend
+- name: install openjdk-18
+  apt:
+    name: openjdk-18-jdk
+    state: latest
+
+- name: create backend user
+  user:
+    name: backend
+    create_home: no
+    shell: /sbin/nologin
+
+- name: Creates directory
+  file:
+    path: /opt/sausage-store/static/bin
+    state: directory
+
+- name: Install PIP
+  apt: 
+    name: python3-pip 
+    state: present
+
+- name: Install lxml
+  pip: 
+    name: lxml
+
+- name: Download jar from Nexus
+  maven_artifact:
+    dest: "/opt/sausage-store/static/bin/sausage-store.jar"
+    repository_url: "https://nexus.praktikum-services.tech/repository/std-028-038-backend"
+    group_id: "com.yandex.practicum.devops"
+    artifact_id: "sausage-store"
+    version: "{{backend_maven_version}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    owner: backend
+
+- name: copy sausage-store-frontend.service to systemd folder 
+  template:
+    src: sausage-store-backend.service.j2
+    dest: /etc/systemd/system/sausage-store-backend.service
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: Start sausage-store-backend.service
+  service:
+    name: sausage-store-backend
+    state: restarted 

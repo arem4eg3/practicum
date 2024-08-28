@@ -1,0 +1,11 @@
+[Unit]
+Description=Sausage-store
+
+[Service]
+User={{frontend_service_user}}
+Restart=always
+RestartSec=1
+ExecStart=http-server {{frontend_directory}} -p 80 --proxy http://localhost:8080
+
+[Install]
+WantedBy=multi-user.target 

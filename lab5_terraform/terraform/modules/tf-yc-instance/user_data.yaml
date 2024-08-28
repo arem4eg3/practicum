@@ -1,0 +1,10 @@
+#cloud-config
+
+users:
+  - default
+  - name: ansible
+    group: ansible
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDbIUOXMZtkLuDqxBtuDEW5hwGVLvQ0ciOJF5MWaEMTDvH+SQpehALXojFpFViNLWBre4N3g/BBK+8enlOYE2IkdZgEBT+qROxQTuIkuKnAVn7uuPWmHxb4cT/rPJDWKPh1rnWCtVxgPSn6geXGg/IlJZN0qR82vBzEX1VrOQpoUrtcOQ1jb1A1uP493i3XW7OB/Rf/a4EPEG2nVDGfIt4n8sWHjAFQA2mymAi0l+aDFXQd8o49nPwoM5saIsKu3CFVk2fCoC8y6ZSQpe2x/7vy8VfACRW1uJAYQbg8H1eZ9pqy8phUn9H3+ApQALhXfy5nTlCWM2eSfIpTybzSjCQo4t2SmbCU/fp35iD7rTMRcHJcPSMrpl9Mg1vPlsksZECOidG64B2uGGSAWq2iZDdOM5yMD7fkm8PTluWY4WwUyX5kHIp3Nrfyf8COgEDq6fBCRs2B1GW3Zp9ko6ayk/uLS0o9ELkVZucQLrZNr8bP1joeWx8GGZidRAJJE9WFO6M= q@android-228

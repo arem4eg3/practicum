@@ -1,0 +1,54 @@
+stages:
+  - deploy
+
+# Деплой нового frontend . 
+deploy-frontend:
+  stage: deploy
+  image: bitnami/kubectl
+  before_script:  
+    - cp $K8S_CONF ~/.kube/config
+    - cd /builds/std-028-38/infrastructure/kubernetes/frontend
+
+  script:   
+    - kubectl apply -f .
+    - kubectl get pod
+    - rm -rf ~/.kube/config
+
+  environment: 
+    name: review/$CI_COMMIT_REF_NAME-frontend
+    url: https://podburtnyi-artem-028.k8s.praktikum-services.tech
+    auto_stop_in: 1 week
+  only: 
+    changes:
+      - kubernetes/frontend/**/*
+
+deploy-backend:
+  stage: deploy
+  image: bitnami/kubectl
+  before_script:  
+    - cp $K8S_CONF ~/.kube/config
+    - cd /builds/std-028-38/infrastructure/kubernetes/backend
+
+  script:   
+    - kubectl apply -f .
+    - kubectl get pod
+    - rm -rf ~/.kube/config
+  only: 
+    changes:
+      - kubernetes/backend/**/*
+
+
+deploy-backend-report:
+  stage: deploy
+  image: bitnami/kubectl
+  before_script:  
+    - cp $K8S_CONF ~/.kube/config
+    - cd /builds/std-028-38/infrastructure/kubernetes/backend-report
+
+  script:   
+    - kubectl apply -f .
+    - kubectl get pod
+    - rm -rf ~/.kube/config
+  only:
+    changes:
+      - kubernetes/backend-report/**/*
